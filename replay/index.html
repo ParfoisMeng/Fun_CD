@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小猫同行 · 回放工作台</title><link rel="stylesheet" href="/replay/style.css"></head>
+<body>
+  <header><a class="brand" href="/">fun cd<span>小猫同行</span></a><span class="badge">本地回放工作台 · 01</span></header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">RIDE ONCE. REPLAY ANYTIME.</p><h1>把那一程，带回来。</h1><p class="description">一次骑行，反复推敲。让小猫的每一次起步与停留，都更贴近你。</p></div>
+      <div class="import-actions"><label class="button primary" for="file">导入骑行记录 <span>↗</span></label><input id="file" type="file" accept=".jsonl,.json" hidden><button id="demo" class="button">试试演示记录</button></div>
+    </section>
+    <div id="notice" role="status" aria-live="polite">数据仅在当前浏览器中处理，不上传。先导入 JSONL，或用演示记录探索。</div>
+    <div class="workspace">
+      <section class="stage-panel">
+        <div class="panel-header"><span class="eyebrow">YOUR LITTLE COMPANION</span><span id="source" class="source">等待记录</span></div>
+        <div class="cat-viewport">
+          <canvas id="cat" width="800" height="880" aria-label="二维小猫备用舞台"></canvas>
+          <canvas id="cat3d" aria-label="可拖动旋转的三维蓝色小兔骑车舞台" hidden></canvas>
+          <span id="model-status" role="status">正在加载 3D 小猫…</span>
+        </div>
+        <div class="stage-tools" aria-label="动作预览">
+          <button class="selected" data-preview="replay" aria-pressed="true">跟随回放</button>
+          <button data-preview="STOP" aria-pressed="false">预览停车</button>
+          <button data-preview="MOVE" aria-pressed="false">预览骑行</button>
+          <button id="reset-camera">重置视角</button>
+        </div>
+        <p class="model-credit">拖动旋转 · 滚轮缩放 · <span><a href="https://poly.pizza/m/kKtL4zvS3n" target="_blank" rel="noopener">蓝色小兔 · Quaternius · CC0</a></span></p>
+        <div class="stage-caption"><span id="status-dot"></span><h2 id="headline">小猫正在等你</h2><p id="caption">把手机里的那段路，放进这里。</p></div>
+        <div class="playback">
+          <div class="transport"><button id="play" class="play" disabled aria-label="播放或暂停">▶</button><button id="restart" disabled title="回到起点">↺</button><span id="clock">00:00.0 / 00:00.0</span><label class="rate-label">速度 <select id="rate" aria-label="回放倍速"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option><option value="8">8×</option></select></label></div>
+          <input id="seek" type="range" min="0" max="1" value="0" step="100" disabled aria-label="回放进度">
+        </div>
+      </section>
+      <aside>
+        <section class="panel tuning"><div class="panel-header"><h2>让它更合拍</h2><span class="pill">停 / 行</span></div><p class="support">修改参数后，整段原始数据会重新计算。</p>
+          <form id="params">
+            <label>起步速度 <span>m/s</span><input name="enterSpeed" type="number" min="0.1" max="20" step="0.1" required></label>
+            <label>停车速度 <span>m/s</span><input name="exitSpeed" type="number" min="0" max="20" step="0.1" required></label>
+            <label>起步确认 <span>ms</span><input name="enterHoldMs" type="number" min="0" max="10000" step="100" required></label>
+            <label>停车确认 <span>ms</span><input name="exitHoldMs" type="number" min="0" max="20000" step="100" required></label>
+            <label>定位有效期 <span>ms</span><input name="staleMs" type="number" min="500" max="15000" step="100" required></label>
+            <label>动作辅助阈值 <span>g</span><input name="motionThreshold" type="number" min="0" max="2" step="0.005" required></label>
+            <div class="form-actions"><button class="button primary" type="submit" id="apply" disabled>应用并复测</button><button class="button" type="button" id="reset" disabled>还原</button></div>
+          </form><button class="text-button" id="export-params" disabled>导出当前参数 ↓</button>
+        </section>
+        <section class="panel comparison"><div class="panel-header"><h2>此刻发生了什么</h2><span id="difference" class="pill">—</span></div>
+          <dl><div><dt>原始记录判定</dt><dd id="recorded-state">—</dd></div><div><dt>记录参数重算</dt><dd id="base-state">—</dd></div><div><dt>当前参数重算</dt><dd id="new-state">—</dd></div><div><dt>定位速度（滤波后）</dt><dd id="speed">—</dd></div><div><dt>动作强度</dt><dd id="motion">—</dd></div></dl>
+          <p class="support" id="summary">导入后显示整段判定差异。</p>
+        </section>
+      </aside>
+    </div>
+    <section class="panel timeline"><div class="panel-header"><div><h2>这一程的节奏</h2><p class="support">上：记录参数重算　下：当前参数重算。点击时间线跳转。</p></div><div class="legend"><span class="stop">停</span><span class="move">行</span><span class="wait">等待 / 校准</span></div></div><canvas id="timeline" width="1400" height="110" aria-label="原参数和当前参数状态对比时间线"></canvas><div class="timeline-labels"><span>出发前</span><span id="duration">—</span></div></section>
+    <footer><span>FUN CD / EARLY PROTOTYPE</span><span>先把同步做好，再慢慢长出性格。</span></footer>
+  </main>
+  <script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+  <script src="/miniprogram/core/engine.js"></script><script src="/miniprogram/core/log.js"></script><script src="/miniprogram/core/stage.js"></script><script src="/replay/app.js"></script>
+  <script type="module" src="/replay/stage3d.mjs"></script>
+</body></html>

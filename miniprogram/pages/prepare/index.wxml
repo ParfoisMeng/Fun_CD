@@ -1,0 +1,31 @@
+<view class="page">
+  <view class="eyebrow">FUN CD · 骑行搭子</view>
+  <view class="title">今天也，一起走。</view>
+  <view class="muted">把手机固定好，小猫就准备出发。</view>
+  <view class="preview"><cat-stage state="{{preview}}" /></view>
+  <view class="card">
+    <view class="step">01 · 手机竖屏固定到车把支架</view>
+    <view class="step">02 · 点击开始，倒计时 2 秒</view>
+    <view class="muted small">倒计时内尽量不要大幅度移动。需要定位；仅在前台感应。</view>
+    <button class="primary" bindtap="start" loading="{{busy}}" disabled="{{busy}}">开始，让小猫跟上</button>
+    <view wx:if="{{error}}" class="error">{{error}}</view>
+    <button wx:if="{{error}}" class="secondary" bindtap="settings">检查微信授权设置</button>
+    <view class="muted small">自动在本机记录传感器与定位数据，供你导出后在电脑复测。不会上传服务器。</view>
+  </view>
+  <view wx:if="{{logs.length}}" class="card">
+    <view class="section-title">带回来的记录</view>
+    <view wx:for="{{logs}}" wx:key="name" class="record">
+      <view class="muted small">{{item.date}}</view>
+      <button class="secondary small" data-path="{{item.path}}" bindtap="exportLog">导出记录</button>
+    </view>
+  </view>
+  <view wx:if="{{privacy}}" class="privacy">
+    <view class="card">
+      <view class="section-title">开始前，了解数据用途</view>
+      <view class="muted">定位用于停行判断，原始传感器与定位数据仅保存在本机。你可以主动导出到电脑复测。</view>
+      <button class="secondary" bindtap="openPrivacy">查看隐私保护指引</button>
+      <button class="primary" id="privacy-agree" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="agreePrivacy">同意并继续</button>
+      <button bindtap="rejectPrivacy">暂不使用</button>
+    </view>
+  </view>
+</view>

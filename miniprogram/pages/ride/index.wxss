@@ -1,0 +1,6 @@
+.top { display:flex; justify-content:space-between; align-items:center; }
+.recording { font-size:22rpx; color:#748975; }
+.status { font-size:52rpx; font-weight:600; text-align:center; margin-top:-35rpx; }
+.hint { text-align:center; margin:20rpx 0 34rpx; }
+.actions { display:flex; gap:20rpx; }
+.actions button { flex:1; font-size:27rpx; }

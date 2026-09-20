@@ -1,0 +1,9 @@
+{
+  "description": "Fun CD 骑行伙伴原型",
+  "miniprogramRoot": "miniprogram/",
+  "compileType": "miniprogram",
+  "appid": "touristappid",
+  "projectname": "Fun_CD",
+  "setting": { "es6": true, "enhance": true, "minified": true },
+  "libVersion": "latest"
+}

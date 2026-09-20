@@ -1,0 +1,15 @@
+{
+  "pages": ["pages/prepare/index", "pages/ride/index"],
+  "window": {
+    "navigationBarTitleText": "小猫同行",
+    "navigationBarBackgroundColor": "#f6f3eb",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f6f3eb"
+  },
+  "permission": {
+    "scope.userLocation": { "desc": "用于判断小猫的骑行和停车动作，并在本机记录数据供你导出复测" }
+  },
+  "requiredPrivateInfos": ["startLocationUpdate", "onLocationChange"],
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

@@ -1,0 +1,15 @@
+<view class="page">
+  <view class="top"><text class="eyebrow">FUN CD · 同行中</text><text class="recording">{{recordError ? '记录异常' : '● 本机记录中'}}</text></view>
+  <cat-stage state="{{state}}" />
+  <view class="status">{{headline}}</view>
+  <view class="muted hint">{{hint}}</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <view wx:if="{{recordError}}" class="error">{{recordError}}</view>
+  <view wx:if="{{exportError}}" class="error">{{exportError}}</view>
+  <button wx:if="{{error}}" class="primary" bindtap="retry" disabled="{{starting}}">重新连接传感器</button>
+  <view class="actions">
+    <button class="secondary" bindtap="calibrate" disabled="{{starting || state.status === 'calibrating' || !!error}}">重新校准</button>
+    <button class="secondary" bindtap="exportLog" disabled="{{exporting}}">{{exporting ? '准备文件中' : '导出当前记录'}}</button>
+  </view>
+  <view class="muted small hint">调整支架后可重新校准。返回上一页结束感应，记录仍保留在本机。</view>
+</view>

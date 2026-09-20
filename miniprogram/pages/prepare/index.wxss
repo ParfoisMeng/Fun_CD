@@ -1,0 +1,6 @@
+.preview { height:470rpx; overflow:hidden; margin-top:-40rpx; }
+.preview cat-stage { display:block; transform:scale(.66); transform-origin:top center; }
+.step { font-size:29rpx; margin-bottom:20rpx; }
+.section-title { font-size:32rpx; font-weight:600; margin-bottom:20rpx; }
+.record { border-top:1rpx solid #e4e7db; padding-top:16rpx; }
+.privacy { position:fixed; inset:0; z-index:10; background:#293d3799; display:flex; align-items:center; padding:30rpx; }
